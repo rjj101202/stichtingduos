@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/wp-content/uploads/:path*", "destination": "/uploads/:path*" },
+    { "source": "/(.*)", "destination": "/api/index" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{views/**,lib/uploads-manifest.json}",
+      "maxDuration": 60
+    }
+  },
+  "regions": ["fra1"]
+}
