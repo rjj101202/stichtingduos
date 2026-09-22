@@ -1,0 +1,45 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1>Berichten <span class="count">(<%= total %>)</span></h1>
+  <a href="/admin/posts/new" class="btn btn-red">＋ Nieuw bericht</a>
+</div>
+
+<form class="admin-search" method="get" action="/admin/posts">
+  <input type="search" name="q" value="<%= q %>" placeholder="Zoek op titel of slug…">
+  <button type="submit" class="btn btn-ghost">Zoeken</button>
+  <% if (q) { %><a href="/admin/posts" class="btn btn-ghost">Wissen</a><% } %>
+</form>
+
+<div class="panel">
+  <table class="admin-table">
+    <thead><tr><th>Titel</th><th>Categorieën</th><th>Status</th><th>Datum</th><th></th></tr></thead>
+    <tbody>
+      <% for (const p of rows) { %>
+        <tr>
+          <td><a href="/admin/posts/<%= p.id %>/edit"><strong><%= p.title %></strong></a></td>
+          <td class="muted"><%= p.cats.map(c => c.name).join(', ') %></td>
+          <td><%= p.status === 'publish' ? '✅ Gepubliceerd' : '📝 Concept' %></td>
+          <td class="muted"><%= formatDate(p.date) %></td>
+          <td class="row-actions">
+            <a href="/<%= p.slug %>/" target="_blank">Bekijk</a>
+            <a href="/admin/posts/<%= p.id %>/edit">Bewerk</a>
+            <form method="post" action="/admin/posts/<%= p.id %>/delete" onsubmit="return confirm('Weet u zeker dat u dit bericht wilt verwijderen?');">
+              <button type="submit" class="link-danger">Verwijder</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<% if (totalPages > 1) { %>
+  <nav class="pagination">
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <% if (i === 1 || i === totalPages || Math.abs(i - page) <= 3) { %>
+        <% if (i === page) { %><span class="pg current"><%= i %></span><% } else { %><a class="pg" href="/admin/posts?page=<%= i %><%= q ? '&q=' + encodeURIComponent(q) : '' %>"><%= i %></a><% } %>
+      <% } else if (i === 2 || i === totalPages - 1) { %><span class="pg dots">…</span><% } %>
+    <% } %>
+  </nav>
+<% } %>
+<%- include('partials/foot') %>

@@ -1,0 +1,46 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1>Dashboard</h1>
+  <a href="/admin/posts/new" class="btn btn-red">＋ Nieuw bericht</a>
+</div>
+
+<div class="stat-cards">
+  <a class="stat-card" href="/admin/posts"><strong><%= stats.posts %></strong><span>berichten</span></a>
+  <a class="stat-card" href="/admin/pages"><strong><%= stats.pages %></strong><span>pagina's</span></a>
+  <a class="stat-card" href="/admin/posts"><strong><%= stats.categories %></strong><span>categorieën</span></a>
+  <a class="stat-card accent" href="/"><strong>↗</strong><span>bekijk de website</span></a>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>Recente berichten</h2>
+    <a href="/admin/posts">Alle berichten →</a>
+  </div>
+  <table class="admin-table">
+    <thead><tr><th>Titel</th><th>Categorieën</th><th>Datum</th><th></th></tr></thead>
+    <tbody>
+      <% for (const p of recent) { %>
+        <tr>
+          <td><a href="/admin/posts/<%= p.id %>/edit"><strong><%= p.title %></strong></a></td>
+          <td class="muted"><%= p.cats.map(c => c.name).join(', ') %></td>
+          <td class="muted"><%= formatDate(p.date) %></td>
+          <td class="row-actions">
+            <a href="/<%= p.slug %>/" target="_blank">Bekijk</a>
+            <a href="/admin/posts/<%= p.id %>/edit">Bewerk</a>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<div class="panel help-panel">
+  <h2>Zo werkt het</h2>
+  <ul>
+    <li><strong>Nieuw bericht:</strong> klik op "＋ Nieuw bericht", schrijf uw tekst en klik op Opslaan.</li>
+    <li><strong>Tekst op de website aanpassen:</strong> klik op "↗ Naar de website". U ziet dan bovenin een zwarte balk met de knop <em>✏️ Bewerken</em>. Klik daarop, pas de tekst direct op de pagina aan en klik op <em>Wijzigingen opslaan</em>.</li>
+    <li><strong>Pagina's:</strong> alle vaste pagina's (studies, informatie, doneren…) vindt u onder "Pagina's".</li>
+    <li><strong>Afbeeldingen:</strong> upload nieuwe afbeeldingen onder "Media" en gebruik ze in de teksteditor.</li>
+  </ul>
+</div>
+<%- include('partials/foot') %>

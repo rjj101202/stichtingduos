@@ -1,0 +1,65 @@
+</main>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pf-text">
+      <h2 data-edit="setting:newsletter_title:text"><%= settings.newsletter_title %></h2>
+      <p data-edit="setting:newsletter_text:text"><%= settings.newsletter_text %></p>
+    </div>
+    <div class="pf-actions">
+      <a class="btn btn-white" href="<%= settings.newsletter_url %>">Schrijf u in</a>
+      <a class="btn btn-outline-white" href="<%= settings.youtube_url %>" target="_blank" rel="noopener">▶ Bezoek DUOS YouTube</a>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="container footer-cols">
+    <div class="f-col f-about">
+      <a href="/" class="f-logo"><img src="<%= settings.logo %>" alt="<%= settings.site_title %>"></a>
+      <p data-edit="setting:footer_about:text"><%= settings.footer_about %></p>
+    </div>
+    <div class="f-col">
+      <h4>Stichting DUOS</h4>
+      <ul>
+        <li><a href="/over-stichting-duos/">Over Stichting DUOS</a></li>
+        <li><a href="/deelnemen-aan-onderzoek/">Deelnemen aan onderzoek</a></li>
+        <li><a href="/ziekenhuizen-duos/">Ziekenhuizen DUOS</a></li>
+        <li><a href="/veelgestelde-vragen/">Veelgestelde vragen</a></li>
+        <li><a href="/nieuwsbrief/">Nieuwsbrief</a></li>
+        <li><a href="/contact-stichting-duos/">Contact</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Voor patiënten</h4>
+      <ul>
+        <li><a href="/prostaatkanker/">Prostaatkanker</a></li>
+        <li><a href="/blaaskanker/">Blaaskanker</a></li>
+        <li><a href="/nierkanker/">Nierkanker</a></li>
+        <li><a href="/zaadbalkanker/">Zaadbalkanker</a></li>
+        <li><a href="/category/patient/">Patiëntenervaringen</a></li>
+        <li><a href="<%= settings.forum_url %>" target="_blank" rel="noopener">Forums</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Steun ons</h4>
+      <ul>
+        <li><a href="/wat-gebeurt-er-met-uw-donatie/">Wat gebeurt er met uw donatie?</a></li>
+        <li><a href="/fiscaalvriendelijk-doneren-via-anbi/">Fiscaalvriendelijk doneren (ANBI)</a></li>
+      </ul>
+      <a href="<%= settings.donate_url %>" class="btn btn-red">♥ Doneer nu</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span data-edit="setting:footer_copyright:text"><%= settings.footer_copyright %></span>
+      <nav>
+        <a href="/disclaimer/">Disclaimer</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/cookie-beleid/">Cookie-beleid</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js"></script>
+<% if (isAdmin) { %><script src="/assets/js/edit-mode.js"></script><% } %>
+</body>
+</html>

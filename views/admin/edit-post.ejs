@@ -1,0 +1,68 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1><%= post.id ? 'Bericht bewerken' : 'Nieuw bericht' %></h1>
+  <div>
+    <% if (post.id) { %><a href="/<%= post.slug %>/" target="_blank" class="btn btn-ghost">Bekijk op de site ↗</a><% } %>
+  </div>
+</div>
+
+<script>if (location.search.includes('saved=1')) document.write('<div class="alert alert-ok">Bericht opgeslagen ✓</div>');</script>
+
+<form method="post" action="/admin/posts/save" class="edit-layout">
+  <input type="hidden" name="id" value="<%= post.id %>">
+  <div class="edit-main">
+    <label class="field">
+      <span>Titel</span>
+      <input type="text" name="title" value="<%= post.title %>" required class="input-title" placeholder="Titel van het bericht">
+    </label>
+    <label class="field">
+      <span>Inhoud</span>
+      <textarea id="content-editor" name="content"><%= post.content %></textarea>
+    </label>
+    <label class="field">
+      <span>Samenvatting (optioneel — wordt getoond in nieuwsoverzichten)</span>
+      <textarea name="excerpt" rows="3" class="input"><%= post.excerpt %></textarea>
+    </label>
+  </div>
+  <aside class="edit-side">
+    <div class="side-box">
+      <h3>Publiceren</h3>
+      <label class="field"><span>Status</span>
+        <select name="status" class="input">
+          <option value="publish" <%= post.status === 'publish' ? 'selected' : '' %>>Gepubliceerd</option>
+          <option value="draft" <%= post.status === 'draft' ? 'selected' : '' %>>Concept</option>
+        </select>
+      </label>
+      <label class="field"><span>Slug (URL)</span>
+        <input type="text" name="slug" value="<%= post.slug %>" class="input" placeholder="wordt automatisch ingevuld">
+      </label>
+      <button type="submit" class="btn btn-red btn-block">Opslaan</button>
+    </div>
+    <div class="side-box">
+      <h3>Categorieën</h3>
+      <div class="cat-checks">
+        <% for (const c of cats) { %>
+          <label><input type="checkbox" name="categories" value="<%= c.id %>" <%= postCats.includes(c.id) ? 'checked' : '' %>> <%= c.name %></label>
+        <% } %>
+      </div>
+    </div>
+    <div class="side-box">
+      <h3>Uitgelichte afbeelding</h3>
+      <input type="text" name="featured_image" id="featured-input" value="<%= post.featured_image %>" class="input" placeholder="/uploads/naam.jpg">
+      <div id="featured-preview" class="featured-preview"><% if (post.featured_image) { %><img src="<%= post.featured_image %>" alt=""><% } %></div>
+      <label class="btn btn-ghost btn-block upload-label">Afbeelding uploaden
+        <input type="file" id="featured-upload" accept="image/*" hidden>
+      </label>
+    </div>
+  </aside>
+</form>
+
+<% if (post.id) { %>
+<form method="post" action="/admin/posts/<%= post.id %>/delete" onsubmit="return confirm('Weet u zeker dat u dit bericht definitief wilt verwijderen?');" class="danger-zone">
+  <button type="submit" class="link-danger">Bericht verwijderen</button>
+</form>
+<% } %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script src="/assets/js/admin.js"></script>
+<%- include('partials/foot') %>

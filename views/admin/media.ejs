@@ -1,0 +1,44 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1>Media <span class="count">(<%= total %>)</span></h1>
+</div>
+
+<div class="panel">
+  <form method="post" action="/admin/media/upload" enctype="multipart/form-data" class="upload-form">
+    <input type="file" name="files" multiple accept="image/*,.pdf">
+    <button type="submit" class="btn btn-red">Uploaden</button>
+  </form>
+</div>
+
+<form class="admin-search" method="get" action="/admin/media">
+  <input type="search" name="q" value="<%= q %>" placeholder="Zoek bestand…">
+  <button type="submit" class="btn btn-ghost">Zoeken</button>
+</form>
+
+<div class="media-grid">
+  <% for (const f of files) { %>
+    <div class="media-item" title="<%= f.name %>">
+      <% if (f.isImage) { %>
+        <img src="<%= f.url %>" alt="" loading="lazy">
+      <% } else { %>
+        <div class="media-doc">📄</div>
+      <% } %>
+      <div class="media-meta">
+        <span class="media-name"><%= f.name %></span>
+        <button type="button" class="copy-url" data-url="<%= f.url %>">URL kopiëren</button>
+      </div>
+    </div>
+  <% } %>
+</div>
+<% if (total > files.length) { %><p class="muted">Eerste <%= files.length %> van <%= total %> bestanden getoond — gebruik de zoekfunctie.</p><% } %>
+
+<script>
+document.querySelectorAll('.copy-url').forEach(function (b) {
+  b.addEventListener('click', function () {
+    navigator.clipboard.writeText(location.origin + b.dataset.url).then(function () {
+      b.textContent = '✓ Gekopieerd'; setTimeout(function () { b.textContent = 'URL kopiëren'; }, 1500);
+    });
+  });
+});
+</script>
+<%- include('partials/foot') %>

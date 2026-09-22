@@ -1,0 +1,56 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1>Instellingen</h1>
+</div>
+<% if (saved) { %><div class="alert alert-ok">Instellingen opgeslagen ✓</div><% } %>
+<% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+<form method="post" action="/admin/settings" class="settings-form">
+  <div class="panel">
+    <h2>Algemeen</h2>
+    <div class="grid-2">
+      <label class="field"><span>Naam website</span><input class="input" name="site_title" value="<%= values.site_title %>"></label>
+      <label class="field"><span>Ondertitel</span><input class="input" name="site_tagline" value="<%= values.site_tagline %>"></label>
+      <label class="field"><span>Logo (URL)</span><input class="input" name="logo" value="<%= values.logo %>"></label>
+      <label class="field"><span>Doneer-link</span><input class="input" name="donate_url" value="<%= values.donate_url %>"></label>
+      <label class="field"><span>Forum-link</span><input class="input" name="forum_url" value="<%= values.forum_url %>"></label>
+      <label class="field"><span>YouTube-link</span><input class="input" name="youtube_url" value="<%= values.youtube_url %>"></label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Homepage</h2>
+    <label class="field"><span>Hero-titel</span><input class="input" name="home_hero_title" value="<%= values.home_hero_title %>"></label>
+    <label class="field"><span>Hero-tekst</span><textarea class="input" name="home_hero_text" rows="3"><%= values.home_hero_text %></textarea></label>
+    <div class="grid-2">
+      <label class="field"><span>Titel nieuwssectie</span><input class="input" name="home_featured_title" value="<%= values.home_featured_title %>"></label>
+      <label class="field"><span>Tekst nieuwssectie</span><input class="input" name="home_featured_text" value="<%= values.home_featured_text %>"></label>
+    </div>
+    <label class="field"><span>Kerncijfers (JSON: value + label)</span><textarea class="input mono" name="home_stats" rows="6"><%= values.home_stats %></textarea></label>
+    <label class="field"><span>Hero-slides (JSON: image, link, alt)</span><textarea class="input mono" name="hero_slides" rows="10"><%= values.hero_slides %></textarea></label>
+  </div>
+
+  <div class="panel">
+    <h2>Nieuwsbrief-banner</h2>
+    <div class="grid-2">
+      <label class="field"><span>Titel</span><input class="input" name="newsletter_title" value="<%= values.newsletter_title %>"></label>
+      <label class="field"><span>Inschrijf-link</span><input class="input" name="newsletter_url" value="<%= values.newsletter_url %>"></label>
+    </div>
+    <label class="field"><span>Tekst</span><textarea class="input" name="newsletter_text" rows="2"><%= values.newsletter_text %></textarea></label>
+  </div>
+
+  <div class="panel">
+    <h2>Footer</h2>
+    <label class="field"><span>Over-tekst</span><textarea class="input" name="footer_about" rows="3"><%= values.footer_about %></textarea></label>
+    <label class="field"><span>Copyright-regel</span><input class="input" name="footer_copyright" value="<%= values.footer_copyright %>"></label>
+  </div>
+
+  <div class="panel">
+    <h2>Menu</h2>
+    <p class="muted">Het hoofdmenu als JSON. Elk item heeft <code>label</code>, <code>url</code> en optioneel <code>children</code>.</p>
+    <label class="field"><textarea class="input mono" name="menu" rows="18"><%= values.menu %></textarea></label>
+  </div>
+
+  <button type="submit" class="btn btn-red btn-lg">Alles opslaan</button>
+</form>
+<%- include('partials/foot') %>

@@ -1,0 +1,63 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <span class="hero-kicker">Dutch Uro-Oncology Studygroup</span>
+      <h1 data-edit="setting:home_hero_title:text"><%= hero_title %></h1>
+      <p data-edit="setting:home_hero_text:text"><%= hero_text %></p>
+      <div class="hero-cta">
+        <a href="/deelnemen-aan-onderzoek/" class="btn btn-red btn-lg">Deelnemen aan onderzoek</a>
+        <a href="/over-stichting-duos/" class="btn btn-ghost-dark btn-lg">Over Stichting DUOS</a>
+      </div>
+      <div class="hero-stats">
+        <% for (const s of stats) { %>
+          <div class="stat"><strong><%= s.value %></strong><span><%= s.label %></span></div>
+        <% } %>
+      </div>
+    </div>
+    <div class="hero-slider" id="hero-slider">
+      <% slides.forEach((s, i) => { %>
+        <% if (s.link) { %><a class="slide <%= i === 0 ? 'active' : '' %>" href="<%= s.link %>" <%= /^https?:/.test(s.link) ? 'target=_blank rel=noopener' : '' %>><% } else { %><span class="slide <%= i === 0 ? 'active' : '' %>"><% } %>
+          <img src="<%= s.image %>" alt="<%= s.alt %>" <%= i === 0 ? '' : 'loading=lazy' %>>
+        <% if (s.link) { %></a><% } else { %></span><% } %>
+      <% }) %>
+      <% if (slides.length > 1) { %>
+        <button class="slider-btn prev" type="button" aria-label="Vorige">‹</button>
+        <button class="slider-btn next" type="button" aria-label="Volgende">›</button>
+        <div class="slider-dots"></div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="cat-tiles">
+  <div class="container">
+    <div class="tiles">
+      <% for (const c of cats) { %>
+        <a class="tile" href="/category/<%= c.slug %>/">
+          <% if (c.image) { %><img src="<%= c.image %>" alt="" loading="lazy"><% } %>
+          <span class="tile-label"><%= c.name %><small><%= c.cnt %> artikelen</small></span>
+        </a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-edit="setting:home_featured_title:text"><%= featured_title %></h2>
+        <p data-edit="setting:home_featured_text:text"><%= featured_text %></p>
+      </div>
+      <a href="/category/news/" class="btn btn-outline">Meer nieuws →</a>
+    </div>
+    <div class="card-grid">
+      <% for (const p of featured) { %><%- include('partials/postcard', { p }) %><% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

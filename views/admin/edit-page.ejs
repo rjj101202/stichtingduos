@@ -1,0 +1,42 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1><%= page.id ? 'Pagina bewerken' : 'Nieuwe pagina' %></h1>
+  <div>
+    <% if (page.id) { %><a href="/<%= page.path %>/" target="_blank" class="btn btn-ghost">Bekijk op de site ↗</a><% } %>
+  </div>
+</div>
+<script>if (location.search.includes('saved=1')) document.write('<div class="alert alert-ok">Pagina opgeslagen ✓</div>');</script>
+
+<form method="post" action="/admin/pages/save" class="edit-layout">
+  <input type="hidden" name="id" value="<%= page.id %>">
+  <div class="edit-main">
+    <label class="field">
+      <span>Titel</span>
+      <input type="text" name="title" value="<%= page.title %>" required class="input-title" placeholder="Titel van de pagina">
+    </label>
+    <label class="field">
+      <span>Inhoud</span>
+      <textarea id="content-editor" name="content"><%= page.content %></textarea>
+    </label>
+  </div>
+  <aside class="edit-side">
+    <div class="side-box">
+      <h3>Publiceren</h3>
+      <label class="field"><span>Pad (URL)</span>
+        <input type="text" name="path" value="<%= page.path %>" class="input" placeholder="bijv. over-stichting-duos">
+      </label>
+      <p class="muted small">De pagina wordt bereikbaar op /<%= page.path || 'pad' %>/</p>
+      <button type="submit" class="btn btn-red btn-block">Opslaan</button>
+    </div>
+  </aside>
+</form>
+
+<% if (page.id) { %>
+<form method="post" action="/admin/pages/<%= page.id %>/delete" onsubmit="return confirm('Weet u zeker dat u deze pagina definitief wilt verwijderen?');" class="danger-zone">
+  <button type="submit" class="link-danger">Pagina verwijderen</button>
+</form>
+<% } %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script src="/assets/js/admin.js"></script>
+<%- include('partials/foot') %>

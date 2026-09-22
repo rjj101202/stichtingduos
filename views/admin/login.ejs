@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inloggen – DUOS Beheer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="login-body">
+<div class="login-card">
+  <img src="<%= settings.logo %>" alt="Stichting DUOS" class="login-logo">
+  <h1>DUOS Beheer</h1>
+  <p class="login-sub">Log in om de website te beheren</p>
+  <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+  <form method="post" action="/admin/login">
+    <input type="hidden" name="next" value="<%= next %>">
+    <label>Gebruikersnaam
+      <input type="text" name="username" required autofocus autocomplete="username">
+    </label>
+    <label>Wachtwoord
+      <input type="password" name="password" required autocomplete="current-password">
+    </label>
+    <button type="submit" class="btn btn-red btn-block">Inloggen</button>
+  </form>
+  <p class="login-back"><a href="/">← Terug naar de website</a></p>
+</div>
+</body>
+</html>

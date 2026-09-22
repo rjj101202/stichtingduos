@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= pageTitle %> – DUOS Beheer</title>
+<link rel="icon" type="image/png" href="<%= settings.logo %>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin-body">
+<aside class="admin-side">
+  <a class="as-brand" href="/admin">
+    <img src="<%= settings.logo %>" alt="">
+    <span>DUOS<br><small>Beheer</small></span>
+  </a>
+  <nav>
+    <a href="/admin" class="<%= active === 'dashboard' ? 'on' : '' %>">🏠 Dashboard</a>
+    <a href="/admin/posts" class="<%= active === 'posts' ? 'on' : '' %>">📰 Berichten</a>
+    <a href="/admin/posts/new" class="as-sub">＋ Nieuw bericht</a>
+    <a href="/admin/pages" class="<%= active === 'pages' ? 'on' : '' %>">📄 Pagina's</a>
+    <a href="/admin/media" class="<%= active === 'media' ? 'on' : '' %>">🖼️ Media</a>
+    <a href="/admin/settings" class="<%= active === 'settings' ? 'on' : '' %>">⚙️ Instellingen</a>
+    <a href="/admin/password" class="<%= active === 'password' ? 'on' : '' %>">🔑 Wachtwoord</a>
+  </nav>
+  <div class="as-bottom">
+    <a href="/" class="as-visit">↗ Naar de website</a>
+    <form method="post" action="/admin/logout"><button type="submit">Uitloggen (<%= adminName %>)</button></form>
+  </div>
+</aside>
+<main class="admin-main">

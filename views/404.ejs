@@ -1,0 +1,14 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<div class="container notfound">
+  <h1>Pagina niet gevonden</h1>
+  <p>De pagina die u zoekt bestaat niet (meer). Probeer te zoeken of ga terug naar de homepage.</p>
+  <form action="/zoeken" method="get" class="search-form">
+    <input type="search" name="q" placeholder="Zoeken…">
+    <button type="submit" class="btn btn-red">Zoeken</button>
+  </form>
+  <p><a class="btn btn-outline" href="/">← Terug naar home</a></p>
+</div>
+
+<%- include('partials/footer') %>

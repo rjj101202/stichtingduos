@@ -1,0 +1,37 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Zoeken</h1>
+    <form action="/zoeken" method="get" class="search-form search-page-form">
+      <input type="search" name="q" value="<%= q %>" placeholder="Zoek in nieuws, studies en pagina's…" autofocus>
+      <button type="submit" class="btn btn-red">Zoeken</button>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <% if (q) { %>
+    <p class="search-summary"><%= results.posts.length + results.pages.length %> resultaten voor “<%= q %>”</p>
+    <% if (results.pages.length) { %>
+      <h2 class="search-h">Pagina's</h2>
+      <ul class="search-pages">
+        <% for (const p of results.pages) { %>
+          <li><a href="/<%= p.path %>/"><%= p.title %></a><% if (p.excerpt) { %><p><%= p.excerpt.slice(0, 180) %></p><% } %></li>
+        <% } %>
+      </ul>
+    <% } %>
+    <% if (results.posts.length) { %>
+      <h2 class="search-h">Nieuws & artikelen</h2>
+      <div class="card-grid">
+        <% for (const p of results.posts) { %><%- include('partials/postcard', { p }) %><% } %>
+      </div>
+    <% } %>
+    <% if (!results.posts.length && !results.pages.length) { %>
+      <p>Geen resultaten gevonden. Probeer een andere zoekterm.</p>
+    <% } %>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

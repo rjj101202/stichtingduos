@@ -1,0 +1,40 @@
+<%- include('partials/head', { metaDescription: post.excerpt }) %>
+<%- include('partials/header') %>
+
+<div class="page-hero post-hero">
+  <div class="container">
+    <nav class="breadcrumbs">
+      <a href="/">Home</a> <span>›</span> <a href="/category/news/">Nieuws</a> <span>›</span> <span class="bc-current"><%= post.title %></span>
+    </nav>
+    <div class="post-meta">
+      <time datetime="<%= post.date %>"><%= formatDate(post.date) %></time>
+      <% for (const c of post.cats) { %><a class="chip" href="/category/<%= c.slug %>/"><%= c.name %></a><% } %>
+      <% if (post.status !== 'publish') { %><span class="chip chip-draft">Concept</span><% } %>
+    </div>
+    <h1 data-edit="post:<%= post.id %>:title"><%- post.title %></h1>
+  </div>
+</div>
+
+<div class="container content-layout single">
+  <article class="entry" data-edit="post:<%= post.id %>:content">
+    <%- post.content %>
+  </article>
+</div>
+
+<div class="container post-nav">
+  <% if (prev) { %><a class="pn prev" href="/<%= prev.slug %>/"><small>← Ouder bericht</small><span><%= prev.title %></span></a><% } else { %><span></span><% } %>
+  <% if (nextP) { %><a class="pn next" href="/<%= nextP.slug %>/"><small>Nieuwer bericht →</small><span><%= nextP.title %></span></a><% } %>
+</div>
+
+<% if (related && related.length) { %>
+<section class="related">
+  <div class="container">
+    <h2>Gerelateerd nieuws</h2>
+    <div class="card-grid">
+      <% for (const p of related) { %><%- include('partials/postcard', { p }) %><% } %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>

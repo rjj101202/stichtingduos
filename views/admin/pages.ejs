@@ -1,0 +1,34 @@
+<%- include('partials/head') %>
+<div class="admin-head">
+  <h1>Pagina's <span class="count">(<%= rows.length %>)</span></h1>
+  <a href="/admin/pages/new" class="btn btn-red">＋ Nieuwe pagina</a>
+</div>
+
+<form class="admin-search" method="get" action="/admin/pages">
+  <input type="search" name="q" value="<%= q %>" placeholder="Zoek op titel of pad…">
+  <button type="submit" class="btn btn-ghost">Zoeken</button>
+  <% if (q) { %><a href="/admin/pages" class="btn btn-ghost">Wissen</a><% } %>
+</form>
+
+<div class="panel">
+  <table class="admin-table">
+    <thead><tr><th>Titel</th><th>Pad</th><th>Laatst gewijzigd</th><th></th></tr></thead>
+    <tbody>
+      <% for (const p of rows) { %>
+        <tr>
+          <td><a href="/admin/pages/<%= p.id %>/edit"><strong><%= p.title %></strong></a></td>
+          <td class="muted">/<%= p.path %>/</td>
+          <td class="muted"><%= p.updated_at ? p.updated_at.slice(0, 10) : '' %></td>
+          <td class="row-actions">
+            <a href="/<%= p.path %>/" target="_blank">Bekijk</a>
+            <a href="/admin/pages/<%= p.id %>/edit">Bewerk</a>
+            <form method="post" action="/admin/pages/<%= p.id %>/delete" onsubmit="return confirm('Weet u zeker dat u deze pagina wilt verwijderen?');">
+              <button type="submit" class="link-danger">Verwijder</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<%- include('partials/foot') %>

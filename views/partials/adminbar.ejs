@@ -1,0 +1,18 @@
+<div id="adminbar">
+  <div class="ab-left">
+    <a href="/admin" class="ab-brand">⬤ DUOS Beheer</a>
+    <a href="/admin/posts/new">+ Nieuw bericht</a>
+    <a href="/admin/pages">Pagina's</a>
+    <a href="/admin/settings">Instellingen</a>
+  </div>
+  <div class="ab-right">
+    <button type="button" id="edit-toggle" class="ab-edit" hidden>✏️ Bewerken</button>
+    <span class="ab-user">Ingelogd als <%= adminName %></span>
+    <form method="post" action="/admin/logout" class="ab-logout"><button type="submit">Uitloggen</button></form>
+  </div>
+</div>
+<div id="edit-controls" hidden>
+  <span id="edit-status">Bewerkmodus actief — klik op een gemarkeerd tekstvak en typ. </span>
+  <button type="button" id="edit-save" class="btn btn-red">Wijzigingen opslaan</button>
+  <button type="button" id="edit-cancel" class="btn btn-ghost">Annuleren</button>
+</div>

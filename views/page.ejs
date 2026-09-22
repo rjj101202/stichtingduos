@@ -1,0 +1,29 @@
+<%- include('partials/head', { metaDescription: page.excerpt }) %>
+<%- include('partials/header') %>
+
+<div class="page-hero">
+  <div class="container">
+    <nav class="breadcrumbs">
+      <a href="/">Home</a>
+      <% for (const c of crumbs) { %> <span>›</span> <a href="/<%= c.path %>/"><%= c.title %></a><% } %>
+      <span>›</span> <span class="bc-current"><%= page.title %></span>
+    </nav>
+    <h1 data-edit="page:<%= page.id %>:title"><%- page.title %></h1>
+  </div>
+</div>
+
+<div class="container content-layout">
+  <article class="entry" data-edit="page:<%= page.id %>:content">
+    <%- page.content %>
+  </article>
+  <% if (children && children.length) { %>
+    <aside class="subpages">
+      <h3>In dit onderdeel</h3>
+      <ul>
+        <% for (const ch of children) { %><li><a href="/<%= ch.path %>/"><%= ch.title %></a></li><% } %>
+      </ul>
+    </aside>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
