@@ -23,6 +23,37 @@ if (!IS_VERCEL) {
   app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce'), { maxAge: '7d' }));
 }
 
+// Eenmalige initialisatie: zet de database vanaf een URL in Blob-opslag.
+// Beveiligd met het SESSION_SECRET (alleen de beheerder van de omgeving kent dat).
+// Staat vóór de ensureFresh-middleware zodat hij ook werkt als er nog geen database is.
+app.post('/api/bootstrap-db', async (req, res) => {
+  const auth = String(req.headers.authorization || '');
+  if (!process.env.SESSION_SECRET || auth !== 'Bearer ' + process.env.SESSION_SECRET) {
+    return res.status(401).json({ error: 'Niet toegestaan' });
+  }
+  const srcUrl = String((req.body && req.body.url) || '');
+  if (!/^https:\/\//.test(srcUrl)) return res.status(400).json({ error: 'Ongeldige bron-URL' });
+  try {
+    const r = await fetch(srcUrl);
+    if (!r.ok) throw new Error('Bron gaf HTTP ' + r.status);
+    const buf = Buffer.from(await r.arrayBuffer());
+    // sanity check: SQLite-bestanden beginnen met "SQLite format 3"
+    if (buf.length < 100 || !buf.subarray(0, 15).equals(Buffer.from('SQLite format 3'))) {
+      throw new Error('Bestand is geen SQLite-database');
+    }
+    const { put } = require('@vercel/blob');
+    const blob = await put('db/duos.db', buf, {
+      access: 'public',
+      allowOverwrite: true,
+      contentType: 'application/octet-stream',
+      cacheControlMaxAge: 60,
+    });
+    res.json({ ok: true, url: blob.url, bytes: buf.length });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Database beschikbaar/actueel maken (downloadt op Vercel zo nodig de laatste versie uit Blob)
 app.use(async (req, res, next) => {
   try { await ensureFresh(); next(); } catch (e) { next(e); }
