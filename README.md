@@ -56,7 +56,21 @@ data/duos.db         De database (regelmatig back-uppen!)
 _scrape/             De ruwe scrape-data van de oude site (mag na oplevering weg)
 ```
 
-## Productie draaien
+## Productie (Vercel)
+
+De site draait live op **https://stichtingduos.vercel.app** (project `stichtingduos`, gekoppeld aan deze GitHub-repo — elke push naar `main` deployt automatisch).
+
+Hoe het op Vercel werkt:
+- De database (`duos.db`) staat in **Vercel Blob** (pad `db/duos.db`). Bij een cold start wordt hij naar `/tmp` gedownload; na elke wijziging in het beheer wordt hij automatisch teruggeschreven. Andere serverinstanties verversen binnen ±15 seconden.
+- Nieuwe media-uploads gaan naar Vercel Blob; de bestaande 260+ bestanden worden statisch geserveerd uit `public/uploads/`.
+- Environment variables op het project: `SESSION_SECRET` (login-cookies), `DUOS_DB_URL` (blob-URL van de database) en `BLOB_READ_WRITE_TOKEN` (automatisch, via de gekoppelde Blob-store).
+- `POST /api/bootstrap-db` (Authorization: `Bearer <SESSION_SECRET>`, body `{"url": "..."}`) zet een verse database in de Blob-opslag — alleen nodig bij (her)initialisatie.
+- Upload-limiet via het beheer is op Vercel ±4 MB per bestand (platform-limiet); grotere bestanden kun je in de repo onder `public/uploads/` zetten.
+- Eigen domein (stichtingduos.nl) koppelen: Vercel-dashboard → project → Settings → Domains.
+
+Back-up: download af en toe `db/duos.db` uit de Blob-store (dashboard → Storage) of bewaar een kopie van `data/duos.db`.
+
+## Productie (eigen server, alternatief)
 
 - Zet een reverse proxy (nginx/Caddy/IIS) met HTTPS voor poort 3000, of draai met `PORT=80`.
 - Gebruik een procesmanager, bijv. `pm2 start server.js --name duos`.
